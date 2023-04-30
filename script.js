@@ -1,28 +1,41 @@
 function formatDate(timestamp) {
     let date = new Date(timestamp);
     let hours = date.getHours();
+    if (hours < 10) {
+        hours = `0${hours}`;
+    }
     let minutes = date.getMinutes();
-    let day = date.getDay();
+    if (minutes < 10) {
+        minutes = `0${minutes}`;
+    }
+    let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    let day = days[date.getDay()];
     return `${day} ${hours} ${minutes}`;
 }
 
 function displayTemperature(response) {
-    console.log(response.data.main.temp);
     let cityElement = document.querySelector("#city");
     let description = document.querySelector("#description");
     let temperatureElement = document.querySelector("#temperature");
     let humidityElement = document.querySelector("#humidity");
     let windElement = document.querySelector("#wind");
     let dateElement = document.querySelector("#date");
+    let iconElement = document.querySelector("#icon");
+    
+    
     cityElement.innerHTML = response.data.name;
     description.innerHTML = response.data.weather[0].description;
     humidityElement.innerHTML = response.data.main.humidity;
     dateElement.innerHTML = formatDate(response.data.dt * 1000);
     windElement.innerHTML = response.data.main.wind.speed;
     temperatureElement.innerHTML = Math.round(response.data.main.temp);
+    iconElement.setAttribute("src", `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
+    iconElement.setAttribute("alt", response.data.weather[0].description);
 }
 let apiKey = "d40fd6ae4a93f07d6d48fe18f4a7d1e0";
+let city = "Paris";
 let apiUrl = `https://api.openweatherapp.org/data/2.5/weather?q=New Yorkappid=${apiKey}&units=metric`;
+
 
 console.log(apiUrl);
 axios.get(apiUrl).then(displayTemperature);
