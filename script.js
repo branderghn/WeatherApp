@@ -48,24 +48,15 @@ function displayForecast(response) {
     forecastElement.innerHTML = forecastHTML;
 }
 function getForecast(coordinates) {
-    let apiKey = "t08837od2cbf8c904aecafd9d4297ecc";
+    let apiKey = "2ff29bed3181c3526c35cc5408037f85";
 let city = "Paris";
   let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
 
-
-
-axios.get(apiUrl).then(displayTemperature);
+axios.get(apiUrl).then(displayForecast);
     
-}
-function displayFahreheitsTemperature(event) {
-    event.preventDefault();
-    let tempFahra = document.querySelector("#temperature");
-    let fahraTemperature = (temperatureElement.innerHTML * 9) / 5 * 32;
-    temperatureElement.innerHTML = Math.round(fahraTemperature);
 }
 
 function displayTemperature(response) {
-    //console.log(response.data.main.temp);
     let cityElement = document.querySelector("#city");
     let description = document.querySelector("#description");
     let temperatureElement = document.querySelector("#temperature");
@@ -80,15 +71,16 @@ function displayTemperature(response) {
     description.innerHTML = response.data.weather[0].description;
     humidityElement.innerHTML = response.data.main.humidity;
     dateElement.innerHTML = formatDate(response.data.dt * 1000);
-    windElement.innerHTML = response.data.main.wind.speed;
-    temperatureElement.innerHTML = Math.round(response.data.main.temp);
+    windElement.innerHTML = Math.round(response.data.wind.speed*3.6);
+    temperatureElement.innerHTML = Math.round(celsiusTemperature);
     iconElement.setAttribute("src", `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
     iconElement.setAttribute("alt", response.data.weather[0].description);
 
     getForecast(response.data.coord);
 }
+
 function search(city) {
-    let apiKey = "t08837od2cbf8c904aecafd9d4297ecc";
+    let apiKey = "2ff29bed3181c3526c35cc5408037f85";
   let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
 
 axios.get(apiUrl).then(displayTemperature);
@@ -100,8 +92,21 @@ function handleSubmit(event) {
     search(cityInputElement.value);
 }
 
-let form = document.querySelector("#search-form");
+function displayFahreheitsTemperature(event) {
+    event.preventDefault();
+    let temperatureElement = document.querySelector("#temperature");
+    let fahraTemperature = (temperatureElement.innerHTML * 9) / 5 * 32;
+    temperatureElement.innerHTML = Math.round(fahraTemperature);
+}
+
+let form = document.querySelector("#city-input");
 form.addEventListener("submit", handleSubmit);
-//search("New York");
+
+let celsiusTemperature = null;
+let fahreheitLink = document.querySelector("#fahregeit-link");
+
+
+
+search("New York");
 
  
