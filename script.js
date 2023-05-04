@@ -57,6 +57,12 @@ let city = "Paris";
 axios.get(apiUrl).then(displayTemperature);
     
 }
+function displayFahreheitsTemperature(event) {
+    event.preventDefault();
+    let tempFahra = document.querySelector("#temperature");
+    let fahraTemperature = (temperatureElement.innerHTML * 9) / 5 * 32;
+    temperatureElement.innerHTML = Math.round(fahraTemperature);
+}
 
 function displayTemperature(response) {
     //console.log(response.data.main.temp);
