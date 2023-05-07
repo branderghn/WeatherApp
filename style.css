@@ -18,6 +18,12 @@ h1 {
     border-radius: 5px;
 }
 
+.btn-success  {
+    color: #fff;
+    background-color: #28a745;
+ border-color: #28a745; 
+}
+
 ul{
     margin: 0;
     padding: 0;
